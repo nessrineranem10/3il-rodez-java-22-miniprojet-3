@@ -15,7 +15,6 @@ public class Pendu extends JFrame {
     private JTextField lettreField;
     private JButton proposerButton, rejouerButton;
 
-
     /**
      * Constructeur de la classe Pendu.
      */
@@ -97,9 +96,6 @@ public class Pendu extends JFrame {
         rejouerButton.addActionListener(listener);
     }
 
-    public static void main(String[] args) {
-
-    }
 }
 
 
