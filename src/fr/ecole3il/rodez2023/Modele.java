@@ -1,10 +1,8 @@
 package fr.ecole3il.rodez2023;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Modele {
     private ArrayList<String> mots;
@@ -27,13 +25,19 @@ public class Modele {
      * @param filename Le nom du fichier contenant les mots.
      * @return Une liste contenant les mots chargés depuis le fichier.
      */
-    private ArrayList<String> chargerMotsDepuisFichier(String filename) {
+    ArrayList<String> chargerMotsDepuisFichier(String filename) {
         ArrayList<String> mots = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(filename))) {
-            while (scanner.hasNextLine()) {
-                mots.add(scanner.nextLine());
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Séparation de la ligne en mot et définition
+                String[] parts = line.split(":");
+                if (parts.length >= 2) {
+                    mots.add(parts[0].trim()); // Ajouter seulement le mot
+                }
             }
-        } catch (FileNotFoundException e) {
+            System.out.println(line);
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return mots;
@@ -43,17 +47,24 @@ public class Modele {
      * Initialise une nouvelle partie du jeu.
      */
     public void initialiserJeu() {
-        // Choisir un mot aléatoire
-        Random rand = new Random();
-        motADeviner = mots.get(rand.nextInt(mots.size()));
-        motCache = motADeviner.replaceAll("[a-zA-Z]", "_");
+        // Vérifier si la liste de mots n'est pas vide
+        if (!mots.isEmpty()) {
+            // Choisir un mot aléatoire
+            Random rand = new Random();
+            motADeviner = mots.get(rand.nextInt(mots.size()));
+            motCache = motADeviner.replaceAll("[a-zA-Z]", "_");
 
-        // Initialiser le nombre de tentatives restantes
-        tentativesRestantes = 7;
+            // Initialiser le nombre de tentatives restantes
+            tentativesRestantes = 7;
 
-        // Initialiser les lettres déjà proposées
-        lettresProposees = new ArrayList<>();
+            // Initialiser les lettres déjà proposées
+            lettresProposees = new ArrayList<>();
+        } else {
+            System.out.println("La liste de mots est vide. Veuillez charger des mots depuis le fichier.");
+            // Gérer le cas où la liste de mots est vide
+        }
     }
+
 
     /**
      * Propose une lettre pour le jeu.
