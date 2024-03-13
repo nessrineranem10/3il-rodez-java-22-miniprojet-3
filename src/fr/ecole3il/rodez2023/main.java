@@ -16,16 +16,6 @@ public class main {
                 }
             });
         }
-    /*public static void main(String[] args) {
-        Modele modele = new Modele();
-        ArrayList<String> motsRecuperes = modele.chargerMotsDepuisFichier("mots.txt");
-
-        System.out.println("Mots récupérés depuis le fichier :");
-        for (String mot : motsRecuperes) {
-            System.out.println(mot);
-        }
-    }*/
-
 
 
 }
