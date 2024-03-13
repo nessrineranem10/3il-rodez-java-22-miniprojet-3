@@ -2,8 +2,13 @@ package fr.ecole3il.rodez2023;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+/**
+ * Cette classe représente le modèle du jeu du Pendu.
+ * Elle contient la logique métier du jeu.
+ */
 public class Modele {
     private ArrayList<String> mots;
     private String motADeviner;
@@ -25,22 +30,57 @@ public class Modele {
      * @param filename Le nom du fichier contenant les mots.
      * @return Une liste contenant les mots chargés depuis le fichier.
      */
-    ArrayList<String> chargerMotsDepuisFichier(String filename) {
+    public static ArrayList<String> chargerMotsDepuisFichier(String filename) {
         ArrayList<String> mots = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("mots.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                // Séparation de la ligne en mot et définition
-                String[] parts = line.split(":");
-                if (parts.length >= 2) {
-                    mots.add(parts[0].trim()); // Ajouter seulement le mot
-                }
+                mots.add(line);
             }
-            System.out.println(line);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return mots;
+    }
+
+    /**
+     * Tire aléatoirement une ligne depuis un fichier.
+     * @param chemin Le chemin du fichier contenant les lignes.
+     * @return Une ligne tirée aléatoirement depuis le fichier.
+     */
+    public String tirerLigneAleatoirement(String chemin) {
+        List<String> lignes = chargerMotsDepuisFichier(chemin);
+        int nbLignes = lignes.size();
+
+        int random = (int) (1 + (Math.random() * nbLignes));
+        return lignes.get(random - 1);
+    }
+
+
+    /**
+     * Obtient le mot à partir d'une ligne.
+     * @param lignes La ligne contenant le mot et sa définition.
+     * @return Le mot extrait de la ligne.
+     */
+    public String getMot(String lignes){
+        String ligne = tirerLigneAleatoirement(lignes);
+        String[] parts = ligne.split(" ");
+        return parts[0];
+    }
+
+    /**
+     * Obtient la définition à partir d'une ligne.
+     * @param lignes La ligne contenant le mot et sa définition.
+     * @return La définition du mot extrait de la ligne.
+     */
+    public String getDefinition(String lignes) {
+        String ligne = tirerLigneAleatoirement(lignes);
+        String[] parts = ligne.split(":");
+        if (parts.length >= 2) {
+            return parts[1].trim(); // Retourner la définition (la deuxième partie après le séparateur)
+        } else {
+            return ""; // Si la ligne n'a pas de définition, retourner une chaîne vide ou une autre valeur par défaut
+        }
     }
 
     /**
@@ -68,7 +108,6 @@ public class Modele {
 
     /**
      * Propose une lettre pour le jeu.
-     *
      * @param lettre La lettre proposée.
      * @return Vrai si la lettre est présente dans le mot, faux sinon.
      */

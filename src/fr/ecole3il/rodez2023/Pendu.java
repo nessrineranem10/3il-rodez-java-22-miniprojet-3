@@ -5,23 +5,27 @@ import java.awt.event.ActionListener;
 
 
 /**
- * Constructeur par défaut de Pendu.
- * Initialise l'interface graphique Swing.
+ * Cette classe représente une interface graphique du jeu du Pendu.
+ * Elle permet à l'utilisateur de proposer des lettres pour deviner un mot.
  */
 public class Pendu extends JFrame {
     private JLabel motLabel, penduLabel, lettresLabel, messageLabel;
     private JTextField lettreField;
     private JButton proposerButton, rejouerButton;
 
+    private Modele modele;
+
     /**
      * Constructeur de la classe Pendu.
+     * @param modele L'objet Modele à utiliser pour obtenir les mots et les définitions.
      */
-
-    public Pendu() {
+    public Pendu(Modele modele) {
         // Initialisation de la fenêtre
         super("Le Pendu"); // Appelle le constructeur JFrame
         setSize(400, 300); // Definition taille de la fenêtre
         setLayout(new GridLayout(5, 1)); //Organisation des composants disposés les uns en dessous des autres.
+
+        this.modele = modele;
 
         /** Initialisation des composants */
         motLabel = new JLabel();
@@ -31,6 +35,11 @@ public class Pendu extends JFrame {
         lettreField = new JTextField(10);
         proposerButton = new JButton("Propose letter");
         rejouerButton = new JButton("Replay");
+
+        String ligne = modele.tirerLigneAleatoirement("mots.txt");
+        afficherMotAleatoire(ligne);
+        afficherDefinitionAleatoire(ligne);
+
 
         /** Ajout des composants à la fenêtre */
         add(motLabel);
@@ -93,6 +102,25 @@ public class Pendu extends JFrame {
     public void addRejouerListener(ActionListener listener) {
         rejouerButton.addActionListener(listener);
     }
+
+    /**
+     * Affiche un mot aléatoire à deviner.
+     * @param ligne La ligne contenant le mot aléatoire.
+     */
+    public void afficherMotAleatoire(String ligne) {
+        String mot = modele.getMot(ligne);
+        motLabel.setText("Mot aléatoire: " + mot);
+    }
+
+    /**
+     * Affiche une définition aléatoire pour le mot.
+     * @param ligne La ligne contenant le mot aléatoire.
+     */
+    public void afficherDefinitionAleatoire(String ligne) {
+        String definition = modele.getDefinition(ligne);
+        messageLabel.setText("Définition aléatoire: " + definition);
+    }
+
 
 }
 
