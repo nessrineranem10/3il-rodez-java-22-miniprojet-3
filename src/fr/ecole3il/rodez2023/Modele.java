@@ -178,6 +178,7 @@ public class Modele {
 
     /**
      * Obtient les lettres déjà proposées par le joueur.
+     *
      * @return Les lettres déjà proposées.
      */
     public ArrayList<Character> getLettresProposees() {

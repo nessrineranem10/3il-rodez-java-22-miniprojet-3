@@ -1,7 +1,6 @@
 package fr.ecole3il.rodez2023;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class main {
 

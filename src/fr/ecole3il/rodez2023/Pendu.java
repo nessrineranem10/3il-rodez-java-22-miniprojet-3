@@ -1,6 +1,7 @@
 package fr.ecole3il.rodez2023;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
@@ -50,8 +51,28 @@ public class Pendu extends JFrame {
         add(proposerButton);
         add(rejouerButton);
 
+        proposerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                proposerLettre();
+            }
+        });
+        rejouerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         setVisible(true);
     }
+    /**
+     * Méthode appelée lorsque l'utilisateur propose une lettre.
+     */
+    private void proposerLettre() {
+        String lettreProposee = lettreField.getText();
+        modele.proposerLettre(lettreProposee.charAt(0));
+    }
+
 
     /**
      * Met à jour le label du mot à deviner.
